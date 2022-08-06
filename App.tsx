@@ -1,48 +1,34 @@
 import React from 'react'
-//prettier-ignore
-import {StyleSheet, Platform, SafeAreaView, ImageBackground, Image, View, Text, Alert} from 'react-native'
-import * as D from './src/data'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import {Platform, StyleSheet, SafeAreaView, View, Alert} from 'react-native'
 import { Colors } from 'react-native-paper'
-
-const avatarUrl = D.randomAvatarUrl()
-const avatarSize = 50
-
-const text = `Almost before we knew it, we had left the ground.`
-
-const onIconPressed = () => Alert.alert('icon pressed')
+import TopBar from './src/screens/TopBar'
+import Content from './src/screens/Content'
+import BottomBar from './src/screens/BottomBar'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function App(){
+  const iconPressed = () => Alert.alert('Icon pressed.')
   return (
+    <>
     <SafeAreaView style={[styles.flex]}>
-      <ImageBackground
-        style={[styles.flex, styles.imageBackground]}
-        source={require('./src/assets/images/bg.jpg')}>
-        <Image source={{uri: avatarUrl}} style={[styles.image]} />
-        <View style={[styles.flex, styles.padding10]}>
-          <Text style={[styles.text, styles.regular]}>{text} [regular]</Text>
-          <Text style={[styles.text, styles.medium]}>{text} [medium]</Text>
-          <Text style={[styles.text, styles.semiBold]}>{text} [semiBold]</Text>
-          <Text style={[styles.text, styles.bold]}>{text} [bold]</Text>
-        </View>
-        <Icon name="home" size={50} color={Colors.lightBlue500}
-          onPress={onIconPressed} />
-      </ImageBackground>
+      <TopBar />
+      <Content />
+      <BottomBar />
     </SafeAreaView>
+    <View style={[styles.absoluteView]}>
+	    <Icon name="feather" size={50} color="white" onPress={iconPressed} />
+    </View>
+    </>
   )
 }
 const styles = StyleSheet.create({
-  flex: {flex: 1},
-  imageBackground: {flex: 1},
-  image: {width: avatarSize, height: avatarSize, borderRadius: avatarSize /2},
-  padding10: {padding:10},
-  text: {textAlign: 'center', fontSize: 25, color: 'white', marginBottom: 10},
-
-  regular: {fontFamjily: 'DancingScript-Regular', fontWeight: '400'},
-  medium: {fontFamjily: 'DancingScript-Medium', fontWeight: '500'},
-  semiBold: {fontFamjily: 'DancingScript-RegSemiBoldular', fontWeight: '600'},
-  bold: {
-    fontFamjily: 'DancingScript-Bold', 
-    fontWeight: Platform.select({ios: '700', android: '600'})},
-
+  flex: {flex: 1, backgroundColor: Colors.lightBlue100},
+  absoluteView:{
+    backgroundColor: Colors.purple900,
+    position: 'absolute',
+    right: 30,
+    bottom: Platform.select({ios: 100, android: 80}),
+    padding: 10,
+    borderRadius: 35,
+  },
 })
