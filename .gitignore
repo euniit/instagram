@@ -63,4 +63,5 @@ buck-out/
 /vendor/bundle/
 android/
 __tests__/
-node_modules
+node_modules/
+ios
