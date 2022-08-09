@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         flexWrap: 'wrap',
         jusifyContent: 'center',
-       // flex: 1,
+       // flex: 1, // flex가 없어야 스크롤 기능이 작동한다.
         padding: 5,
     },
     text: {fontSize: 20},
