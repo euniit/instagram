@@ -1,18 +1,21 @@
 import React from 'react'
-import {StyleSheet, SafeAreaView, View, FlatList} from 'react-native'
-import { Colors } from 'react-native-paper'
-import Person from './src/copy/Person'
-import * as D from './src/data'
+import {StyleSheet, SafeAreaView, ScrollView, Dimensions} from 'react-native'
+import Cache from './src/screens/Cache'
+import Memo from './src/screens/Memo'
+import Fibo from './src/screens/Fibo'
 
-const people: D.IPerson[] = D.makeArray(10).map(D.createRandomPerson)
+const {width} = Dimensions.get('window')
+const numberOfComponents = 3
+
 // prettier-ignore
 export default function App(){
   return (
-    <SafeAreaView style={[styles.flex]}>
-      <FlatList data={people}
-        renderItem={({item}) => <Person person={item} />}
-        keyExtractor={(item, index) => item.id}
-        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />} />
+    <SafeAreaView>
+      <ScrollView horizontal contentContainerStyle={[styles.contentContainerStyle]}>
+        <Cache />
+        <Memo />
+        <Fibo />
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -20,5 +23,5 @@ export default function App(){
 // prettier-ignore
 const styles = StyleSheet.create({
   flex: {flex: 1},
-  itemSeparator: { borderWidth: 1, borderColor: Colors.grey500}
+  contentContainerStyle: {width: width * numberOfComponents}
 })
