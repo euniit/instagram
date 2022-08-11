@@ -1,17 +1,49 @@
-import React from 'react'
-import {StyleSheet, View, Text} from 'react-native'
+import React, {useCallback} from 'react'
+import type {FC, Dispatch, SetStateAction} from 'react'
+import {View} from 'react-native'
 import {Colors} from 'react-native-paper'
+import {styles} from './Person.style'
+import {IconText} from '../components'
+import * as D from '../data'
 
-const title = 'CopyMe'
-export default function CopyMe() {
-    return (
-        <View style={[styles.view]}>
-            <Text style={[styles.text]}>{title}</Text>
-        </View>
-    )
+export type PersonIconsProps = {
+    person: D.IPerson
+    setPerson: Dispatch<SetStateAction<D.IPerson>>
 }
+// prettier-ignore
+const PersonIcons: FC<PersonIconsProps> = ({person, setPerson}) => {
+    const commentPressed = useCallback(
+        () =>
+            setPerson((person) => {
+                const {comment} = person.counts
+                return {...person, counts: {...person.counts, comment: comment + 1}}
+        }), [])
+    const retweetPressed = useCallback(
+        () =>
+            setPerson((person) => {
+                const {retweet} = person.counts
+                return {...person, counts: {...person.counts, retweet: retweet + 1}}
+        }), [])
+    const heartPressed = useCallback(
+        () =>
+            setPerson((person) => {
+                const {heart} = person.counts
+                return {...person, counts: {...person.counts, heart: heart + 1}}
+        }), [])
 
-const styles = StyleSheet.create({
-    view: {padding: 5, backgroundColor: Colors.blue900, flex: 1},
-    text: {fontSize: 20, color: 'white'},
-})
+        return (
+            <View style={[styles.countsView]}>
+                <IconText viewStyle={styles.touchableIcon} onPress={commentPressed}
+                name="comment" size={24} color={Colors.blue500}
+                textStyle={styles.iconText} text={person.counts.comment} />
+                <IconText viewStyle={styles.touchableIcon} onPress={retweetPressed}
+                name="sync" size={24} color={Colors.purple500}
+                textStyle={styles.iconText} text={person.counts.retweet} />
+                <IconText viewStyle={styles.touchableIcon} onPress={heartPressed}
+                name="heart" size={24} color={Colors.red500}
+                textStyle={styles.iconText} text={person.counts.heart} />
+            </View>
+        )
+
+}
+export default PersonIcons
