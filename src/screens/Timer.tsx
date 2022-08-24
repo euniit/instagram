@@ -1,14 +1,12 @@
-import React, {useEffect, useCallback, useState} from 'react'
+import React from 'react'
 import {StyleSheet, View, Text, ActivityIndicator, Button} from 'react-native'
 import {Colors} from 'react-native-paper'
+import {useToggle, useTimeout} from '../hooks'
+
 // prettier-ignore
 export default function Timer() {
-    const [loading, setLoading] = useState(true)
-    const toggleLoading = useCallback(() => setLoading((loading) => !loading), [])
-    useEffect(() => {
-        const id = setTimeout(() => setLoading(false), 3000)
-        return () => clearTimeout(id)
-    }, [loading])
+    const [loading, toggleLoading] = useToggle(true)
+    useTimeout(() => loading && toggleLoading(), 3000, [loading])
 
     return (
         <View style={styles.view}>
@@ -22,8 +20,7 @@ export default function Timer() {
         </View>
     )
 }
-
 const styles = StyleSheet.create({
-    view: {backgroundColor: Colors.yellow300, flex: 1, alignItems: 'center'},
-    title: {fontSize: 30, fontWeight: '600'},
+    view: {flex: 1, alignItems: 'center', backgroundColor: Colors.yellow300},
+    title: {fontSize: 30, fontWeight: '600'}
 })
